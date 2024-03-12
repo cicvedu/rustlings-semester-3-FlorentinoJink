@@ -48,6 +48,9 @@ impl From<&str> for Person {
         }
 
         let parts: Vec<&str> = s.split(',').collect();
+        if parts.len() > 2 || parts.len() == 1 {
+            return Person::default();
+        }
         let name = parts.get(0).unwrap_or(&"").trim();
         let age_str = parts.get(1).unwrap_or(&"").trim();
 
@@ -141,14 +144,14 @@ mod tests {
 
     #[test]
     fn test_trailing_comma() {
-        let p: Person = Person::from("John,30,");
+        let p: Person = Person::from("Mike,32,");
         assert_eq!(p.name, "John");
         assert_eq!(p.age, 30);
     }
 
     #[test]
     fn test_trailing_comma_and_some_string() {
-        let p: Person = Person::from("John,30,man");
+        let p: Person = Person::from("Mike,32,man");
         assert_eq!(p.name, "John");
         assert_eq!(p.age, 30);
     }
