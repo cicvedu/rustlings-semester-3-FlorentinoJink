@@ -14,11 +14,17 @@ fn main() {
         "Your command here with {}, please checkout exercises/tests/build.rs",
         timestamp
     );
-    println!("cargo:{}", your_command);
+    std::env::set_var("TEST_FOO", timestamp.to_string());
 
-    // In tests8, we should enable "pass" feature to make the
-    // testcase return early. Fill in the command to tell
-    // Cargo about that.
-    let your_command = "Your command here, please checkout exercises/tests/build.rs";
-    println!("cargo:{}", your_command);
+    // Properly inform Cargo to set the environment variable during the build process
+    println!("cargo:rustc-env=TEST_FOO={}", timestamp);
+    println!("cargo:rustc-cfg=feature=\"pass\"");
+
+    // println!("cargo:{}", your_command);
+    //
+    // // In tests8, we should enable "pass" feature to make the
+    // // testcase return early. Fill in the command to tell
+    // // Cargo about that.
+    // let your_command = "Your command here, please checkout exercises/tests/build.rs";
+    // println!("cargo:{}", your_command);
 }
